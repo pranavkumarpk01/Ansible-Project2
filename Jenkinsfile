@@ -12,7 +12,7 @@ pipeline {
                 script {
                     withCredentials([sshUserPrivateKey(credentialsId: 'SSH_KEY', keyFileVariable: 'SSH_KEY')]) {
                         sh '''
-                            ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --private-key=$SSH_KEY
+                            ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --private-key=$SSH_KEY
                         '''
                     }
                 }
