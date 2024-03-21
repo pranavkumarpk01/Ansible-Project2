@@ -7,6 +7,7 @@ pipeline {
 
     environment {
         ANSIBLE_AGENT_PRIVATE = credentials('ANSIBLE_AGENT_PRIVATE')
+         TF_PLUGIN_SKIP_PROVIDER_REGISTRATION ='true'
     }
 
     stages {
