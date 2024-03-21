@@ -7,7 +7,7 @@ pipeline {
 
     environment {
         ANSIBLE_AGENT_PRIVATE = credentials('ANSIBLE_AGENT_PRIVATE')
-         TF_PLUGIN_SKIP_PROVIDER_REGISTRATION ='true'
+        
     }
 
     stages {
@@ -17,12 +17,12 @@ pipeline {
                     withCredentials([sshUserPrivateKey(credentialsId: 'ANSIBLE_AGENT_PRIVATE', keyFileVariable: 'SSH_KEY')]) {
                         if (params.services == 'nginx' || params.services == 'both') {
                             sh '''
-                                ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --tags=nginx --private-key=$SSH_KEY 
+                                ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --tags=nginx --private-key=$SSH_KEY 
                             '''
                         }
                         if (params.services == 'tomcat' || params.services == 'both') {
                             sh '''
-                                ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --tags=tomcat --private-key=$SSH_KEY 
+                                ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -i my_ansible_project/inventory/hosts my_ansible_project/install_services_playbook.yml --tags=tomcat --private-key=$SSH_KEY 
                             '''
                         }
                     }
